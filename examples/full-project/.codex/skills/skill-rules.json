@@ -1,0 +1,88 @@
+{
+  "$schema": "./skill-rules.schema.json",
+  "version": "1.0.0",
+  "description": "Optional helper catalog for recommend-skills.py in Codex-maintained repositories",
+  "skills": {
+    "issue-triage": {
+      "priority": "high",
+      "enforcement": "suggest",
+      "triggers": {
+        "promptTriggers": {
+          "keywords": ["issue", "bug report", "triage", "duplicate", "reproduce"],
+          "intentPatterns": [".*triage.*issue.*", ".*classify.*bug.*"]
+        },
+        "fileTriggers": {
+          "include": ["issues/**/*", "docs/triage/**/*", "support/**/*"],
+          "exclude": []
+        }
+      }
+    },
+    "pr-review": {
+      "priority": "high",
+      "enforcement": "suggest",
+      "triggers": {
+        "promptTriggers": {
+          "keywords": ["review", "pull request", "diff", "regression", "rollback"],
+          "intentPatterns": [".*review.*pr.*", ".*inspect.*diff.*"]
+        },
+        "fileTriggers": {
+          "include": ["src/**/*", "tests/**/*", ".github/workflows/**/*"],
+          "exclude": ["**/node_modules/**"]
+        }
+      }
+    },
+    "release-notes": {
+      "priority": "medium",
+      "enforcement": "suggest",
+      "triggers": {
+        "promptTriggers": {
+          "keywords": ["release", "changelog", "announcement", "migration", "rollout"],
+          "intentPatterns": [".*write.*release.*", ".*draft.*changelog.*"]
+        },
+        "fileTriggers": {
+          "include": ["CHANGELOG*", "docs/releases/**/*", ".github/workflows/**/*"],
+          "exclude": []
+        }
+      }
+    },
+    "dependency-refresh": {
+      "priority": "medium",
+      "enforcement": "suggest",
+      "triggers": {
+        "promptTriggers": {
+          "keywords": ["dependency", "upgrade", "renovate", "security update", "lockfile"],
+          "intentPatterns": [".*upgrade.*dependency.*", ".*refresh.*lockfile.*"]
+        },
+        "fileTriggers": {
+          "include": ["package.json", "pyproject.toml", "requirements*.txt", "Cargo.toml"],
+          "exclude": []
+        }
+      }
+    },
+    "security-audit": {
+      "priority": "critical",
+      "enforcement": "warn",
+      "triggers": {
+        "promptTriggers": {
+          "keywords": ["security", "secret", "credential", "token", "cve"],
+          "intentPatterns": [".*audit.*security.*", ".*rotate.*token.*"]
+        },
+        "fileTriggers": {
+          "include": [".env*", "**/secrets*", "**/credentials*", ".github/workflows/**/*"],
+          "exclude": []
+        }
+      }
+    }
+  },
+  "priorityLevels": {
+    "critical": {"label": "Required", "icon": "!!", "description": "High-risk task"},
+    "high": {"label": "Recommended", "icon": "**", "description": "Strongly recommended"},
+    "medium": {"label": "Suggested", "icon": "*", "description": "Useful when time allows"},
+    "low": {"label": "Optional", "icon": "-", "description": "Nice to have"}
+  },
+  "enforcementTypes": {
+    "suggest": "Recommend only",
+    "warn": "Warn before proceeding",
+    "block": "Require human review before continuing"
+  }
+}
